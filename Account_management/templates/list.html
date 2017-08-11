@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container" style="width: 90%">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <h2 class="text-center">
+                台账管理
+            </h2><br>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <form class="form-horizontal" action=""  role="form" method="POST">
+            {% csrf_token %}
+        <div class="col-md-7 column">
+                 <input  name="search"  type="text" placeholder= "查询内容" size ='15'>
+                <button class="btn btn-primary" type="submit" >查询</button>
+        </div>
+        </form>
+        <div class="col-md-6 column" style="text-align:right">
+            <input class="btn btn-primary fast"  type="button"  value="文件上传" onclick="oil()">
+        </div>
+    </div>
+    <br>
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            
+            <div class="box box-info">
+            <table class="table table-condensed table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>保险公司</th>
+                        <th>船舶名称</th>
+                        <th>业务员</th>
+                        <th>保单时间</th>
+                        <th>到期时间</th>
+                    </tr>
+                </thead>
+                <tbody> {% for list in lists %}
+
+                    <tr>
+                       <td>{{ list.number }}</td>
+                       <td>{{ list.insurer }}</td>
+                       <td>{{ list.ship_name }}</td>
+                       <td>{{ list.Clerk }}</td>
+                       <td>{{ list.Insured_date|date:"Y-m-d"}}</td>
+                       <td>{{ list.Expired_date|date:"Y-m-d"}}</td>
+                    </tr>{% endfor %}
+                </tbody>
+            </table>
+            </div>
+            <div style="text-align:center;">
+                <div class="pagination">
+                    <span class="step-links">
+                        <span class="current">
+                        <ul class="pagination">
+                        {% if contacts.has_previous %}
+                            <li><a class='paginator' title='上一页' onclick='doSearch({{contacts.previous_page_number}})' href='#' ><span>上一页</span></a></li>
+                        {% endif %}
+
+                        {% for page in contacts.paginator.page_range %}
+                            {% if page = contacts.number %}
+                            <li><a class='paginator_current' title='当前页:{{ page }}'><span style="color: #000093">{{ page }}</span></a></li>
+                            {% else %}
+                            <li><a class='paginator' onclick='doSearch({{page}})' href='#'  title='{{ page }}'><span>{{ page }}</span></a></li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if contacts.has_next %}
+                        <li><a class='paginator' title='下一页' onclick='doSearch({{contacts.next_page_number}})' href='#'><span>下一页</span></a></li>
+                        {% endif %}
+                        </ul>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function doSearch(page){
+        $("#id_current_page").val(page);
+        //document.all.form.submit(); 
+        search_form=document.getElementsByTagName("form");
+        search_form[0].submit();
+    }
+//上传文件弹窗
+function oil(){
+	window.open("/file_upload/",'', 'width=500,height=300,toolbar=no, status=no, menubar=no, resizable=yes, scrollbars=yes');
+}
+</script>
+{% endblock %}

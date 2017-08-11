@@ -1,0 +1,49 @@
+{% load staticfiles %}
+<!-- sidebar: style can be found in sidebar.less -->
+<section class="sidebar" style="height: auto;">
+    <!-- Sidebar user panel -->
+    <div class="user-panel">
+        <div class="pull-left image">
+          <img src="{% static "dist/img/avatar5.png" %}" class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+          <p>乙禾员工</p>
+          <a href="/user/"><i class="fa fa-circle text-success"></i>用户信息</a>
+        </div>
+      </div>
+
+    <!-- sidebar menu: : style can be found in sidebar.less -->
+    <ul class="sidebar-menu" id="menu">
+
+    <li>
+        <a href="/index/">
+        <i class="fa fa-laptop"></i> <span>我的工作台</span>
+        </a>
+    </li>
+    <li>
+          <a href="/list/">
+            <i class="fa fa-th"></i> <span>台账查询</span>
+          </a>
+        </li>
+{#        <li>#}
+{#          <a href="/underwriting_list/">#}
+{#            <i class="fa fa-th"></i> <span>保险投保</span>#}
+{#          </a>#}
+{#        </li>#}
+{#        <li>#}
+{#          <a href="/shipdata_list/">#}
+{#            <i class="fa fa-th"></i> <span>船舶信息管理</span>#}
+{#          </a>#}
+{#        </li>#}
+{#        <li>#}
+{#          <a href="/insurer_list/">#}
+{#            <i class="fa fa-th"></i> <span>保险公司管理</span>#}
+{#          </a>#}
+{#        </li>#}
+{#        <li>#}
+{#          <a href="/account/adm_accounts/">#}
+{#            <i class="fa fa-th"></i> <span>业务帐号管理</span>#}
+{#          </a>#}
+{#        </li>#}
+    </ul>
+</section>

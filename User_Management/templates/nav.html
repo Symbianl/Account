@@ -1,0 +1,61 @@
+{% load staticfiles %}
+<div class="wrapper">
+
+  <header class="main-header">
+
+    <!-- Logo -->
+    <div class="logo">
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg"><b>乙禾保险部管理软件</b></span>
+    </div>
+<nav class="navbar navbar-static-top">
+      <!-- Sidebar toggle button-->
+      
+
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+          <!-- Messages: style can be found in dropdown.less-->
+          
+          <!-- User Account: style can be found in dropdown.less -->
+          <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <img src="{% static "dist/img/avatar5.png" %}" class="user-image" alt="User Image">
+              <span class="hidden-xs">用户信息</span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- User image -->
+              <li class="user-header">
+                <img src="{% static "dist/img/avatar5.png" %}" class="img-circle" alt="User Image">
+
+                <p>
+                  乙禾保险部门员工
+                  <small>Insurance department staff and Yihe</small>
+                </p>
+              </li>
+              <!-- Menu Body -->
+              <li class="user-body" >
+                <div class="row" align="center">
+                  <div  text-center" ><a href="/changepwd/" class="btn btn-default btn-flat">修改密码</a>
+                    <a href="{% url "user" %}" class="btn btn-default btn-flat">用户信息</a>
+                    <a href="{% url "logout" %}" class="btn btn-default btn-flat">退出</a>
+                  </div>
+                </div>
+                <!-- /.row -->
+              </li>
+              <!-- Menu Footer-->
+              <!-- <li class="user-footer">
+                <div class="pull-left">
+                  <a href="/changepwd/" class="btn btn-default btn-flat">修改密码</a>
+                </div>
+                <div class="pull-right">
+                  <a href="/logout/" class="btn btn-default btn-flat">退出</a>
+                </div>
+              </li> -->
+            </ul>
+          </li>
+          <!-- Control Sidebar Toggle Button -->
+          
+        </ul>
+      </div>
+    </nav>
+  </header>

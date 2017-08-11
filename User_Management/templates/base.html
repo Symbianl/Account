@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<html lang="en"> 
+<head>     
+<title>{% block title %}乙禾台账管理软件{% endblock %}</title>
+{% load staticfiles %} 
+<!-- Bootstrap v3.3.7 -->
+<link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" />
+<link rel="stylesheet" href="{% static "css/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css"%}" />
+<!-- ico file -->
+<link rel="shortcut icon" href="{% static "pic/yihetop.ico" %}" />
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+<!-- Ionicons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+<!-- jvectormap -->
+<link rel="stylesheet" href="{% static "plugins/jvectormap/jquery-jvectormap-1.2.2.css"%}">
+<!-- Theme style -->
+<link rel="stylesheet" href="{% static "css/dist/AdminLTE.min.css" %}" />
+<!-- AdminLTE Skins -->
+<link rel="stylesheet" href="{% static "css/dist/skins/_all-skins.min.css" %}" />
+
+
+<script src="{% static "js/jquery.min.js" %}"></script>
+<script src="{% static "js/bootstrap.min.js" %}"></script>
+<script src="{% static "js/Chart/exporting.js" %}"></script>
+<script src="{% static "js/Chart/highcharts.js" %}"></script>
+
+<script type="text/javascript">window.__admin_media_prefix__ = "/static/admin/";</script>
+<!--<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />-->
+<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="/static/admin/js/core.js"></script>
+</head>
+   <body class="hold-transition skin-blue sidebar-mini">
+<a name="top" id="top"></a>
+
+{% include 'nav.html' %} 
+
+<aside class="main-sidebar">{% include 'side.html' %} </aside>
+
+<div class="content-wrapper" style="min-height: 100%; background: white">
+<div style="width: 99%">
+{% block content %}{% endblock %} 
+</div>
+</div>
+
+{% include 'bottom.html' %}
+{% include 'tongji.html' %}
+
+<!--<a href="#top" target="_self">
+   <img src="{% static 'pic/top.png' %}" id="gotop" style="position: fixed; right: -18px; bottom: -20px;">
+</a>-->
+   </body>
+</html>

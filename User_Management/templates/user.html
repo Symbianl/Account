@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid" style="width: 90%">
+   <div class="row-fluid">
+      <div class="span12">
+         <h3 class="text-center">
+            <strong>用户中心</strong>
+         </h3><br>
+         <div class="row clearfix">
+            <form class="form-horizontal" role="form" method='post'>{% csrf_token %}
+            <div class="col-md-12 column">
+               <div class="panel panel-info"><!-- 账号 -->
+                  <div class="panel-heading">
+                     <span><label>账号：{{ list_user.username }}</label></span>
+                     <a href="/changepwd/"><button class="btn btn-primary" type="button">修改密码</button></a>
+                  </div>
+                  <div class="panel-body">
+                     <div class="col-md-6 column">
+                        
+                        <div class="form-group">
+                             <label class="col-sm-4 control-label" for="amount">姓名：</label>
+                           <div class="col-sm-7">
+                              {{ form.first_name }}
+                           </div>
+                            
+                        </div>
+                     </div>
+                     <div class="col-md-6 column">
+                        <div class="form-group">
+                           <label class="col-sm-4 control-label" for="borrower">电子邮箱：</label>
+                           <div class="col-sm-7">
+                              {{ form.email }}
+                           </div>
+                        </div>
+                     </div>
+                     {% if menager_manager %}
+                     <div class="col-md-6 column">
+                        <div class="form-group">
+                           <label class="col-sm-4 control-label" for="borrower">管理人权限：</label>
+                           <div class="col-sm-7">
+                              {{ form.manager }}
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-6 column">
+                        <div class="form-group">
+                           <label class="col-sm-4 control-label" for="borrower">保险部权限：</label>
+                           <div class="col-sm-7">
+                              {{ form.insurance }}
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-6 column">
+                        <div class="form-group">
+                           <label class="col-sm-4 control-label" for="borrower">业务部权限：</label>
+                           <div class="col-sm-7">
+                              {{ form.business }}
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-6 column">
+                        <div class="form-group">
+                           <label class="col-sm-4 control-label" for="borrower">融资部权限：</label>
+                           <div class="col-sm-7">
+                              {{ form.financing }}
+                           </div>
+                        </div>
+                     </div>
+                     {% endif %}
+                  </div>
+               </div>
+               <center>
+                  <div class="control-group">
+                     <div class="controls">
+                        <input type="submit" class="btn btn-primary" value="提交">
+                        <button  class="btn btn-primary" onclick="javascript:window.history.go(-1);" type="button">返回</button>
+                     </div>
+                  </div>
+               </center>
+            </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock %}

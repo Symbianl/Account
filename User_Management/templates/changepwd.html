@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container-fluid" style="width: 90%">
+    <div class="row-fluid">
+        <div class="span12">
+            <h2>修改密码</h2>
+           
+            {% if oldpassword_is_wrong %}
+                <div class="alert alert-error">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <h4>错误!</h4>原密码不正确
+                </div>
+            {% endif %}
+            {% if oldpassword_is_wrong_a %}
+                <div class="alert alert-error">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <h4>错误!</h4>新密码不一致
+                </div>
+            {% endif %}
+            <br>
+            <div class="well">
+                <form class="form-horizontal" action="" method="post">
+                    {% csrf_token %}
+                    {{ form.oldpwd }}
+                    {{ form.newpwd }}
+                    {{ form.newpwd2 }}
+                    <br><br>
+                    <p class="form-actions">
+                        <input type="submit" value="提交" class="btn btn-primary">
+                        <button  class="btn btn-primary" onclick="javascript:window.history.go(-1);" type="button">返回</button>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
