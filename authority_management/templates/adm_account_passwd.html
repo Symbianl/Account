@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+ 
+
+ 
+{% block content %}
+
+
+
+
+<div class="container" style="width: 90%">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <center>
+                <h2>修改密码</h2>
+            </center>
+            <br>
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+                   <div class="panel panel-info"><!-- 账号 -->
+                        <div class="panel-heading">
+                            <span><label>账号：{{ user_object.username }}</label></span>
+                            {% if oldpassword_is_wrong %}
+                                <div class="alert alert-error">
+                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                    <h4>错误!</h4>原密码不正确
+                                </div>
+                            {% endif %}
+                            <br>
+                            <div class="well">
+                                <form class="form-horizontal" action="" method="post">
+                                    {% csrf_token %}
+                                    {{ form.oldpassword }}
+                                    {{ form.newpassword1 }}
+                                    {{ form.newpassword2 }}
+                                    <br><br>
+                                    <p class="form-actions">
+                                        <input type="submit" value="确认修改" class="btn btn-primary">
+                                    </p>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

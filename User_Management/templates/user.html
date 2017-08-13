@@ -16,13 +16,12 @@
                   </div>
                   <div class="panel-body">
                      <div class="col-md-6 column">
-                        
                         <div class="form-group">
                              <label class="col-sm-4 control-label" for="amount">姓名：</label>
                            <div class="col-sm-7">
                               {{ form.first_name }}
+
                            </div>
-                            
                         </div>
                      </div>
                      <div class="col-md-6 column">
@@ -30,15 +29,15 @@
                            <label class="col-sm-4 control-label" for="borrower">电子邮箱：</label>
                            <div class="col-sm-7">
                               {{ form.email }}
+                               {{ form.email.errors }}
                            </div>
                         </div>
                      </div>
-                     {% if menager_manager %}
                      <div class="col-md-6 column">
                         <div class="form-group">
                            <label class="col-sm-4 control-label" for="borrower">管理人权限：</label>
                            <div class="col-sm-7">
-                              {{ form.manager }}
+                              {{ form.management }}
                            </div>
                         </div>
                      </div>
@@ -66,7 +65,6 @@
                            </div>
                         </div>
                      </div>
-                     {% endif %}
                   </div>
                </div>
                <center>

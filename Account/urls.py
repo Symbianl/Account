@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^logout/',User_Management_views.logout,name='logout'),
     url(r'^user/',User_Management_views.user,name='user'),
     url(r'^',include('Account_management.urls')),
+    url(r'^',include('authority_management.urls')),
 ]
 
 

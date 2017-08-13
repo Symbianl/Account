@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container" style="width: 90%">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <h2 class="text-center">
+                业务账号管理
+            </h2><br>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <form class="form-horizontal" role="form" method="POST">
+            {% csrf_token %}
+            {{form.current_page}}
+        <div class="col-md-6 column">
+                 <span>{{form.keyword}}</span>
+                 <button class="btn btn-primary" type="submit" onclick="doSearch(1)">查询</button>
+        </div>
+        </form>
+        <div class="col-md-6 column" style="text-align:right">
+          <a href="{% url "adm_account_new" %}"><button class="btn btn-primary" type="button">新建业务账号</button></a>
+          
+        </div>
+        
+      </div>
+      <div class="row clearfix">
+        <div class="col-md-12 column">
+            <br>
+        <div class="box box-info">
+          <table class="table table-hover table-bordered">
+            <thead>
+              <tr>
+                <th>账号</th>
+                <th>用户名</th>
+                <th>邮箱</th>
+              </tr>
+            </thead>
+            <tbody id="tablelsw">
+              {% for post in contacts %}
+              {% if post.username != 'admin' %}
+              <tr>
+                <td><a href="{% url 'adm_account_manage' post.id %}">{{ post.username }}</a></td>
+                <td>{{ post.first_name }}</td>
+                <td>{{ post.email }}</td>
+              </tr>
+              {% endif %}
+              {% endfor%}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+   </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span12">
+         <div style="text-align:center;">
+                <div class="pagination">
+                    <span class="step-links">
+                        <span class="current">
+                        <ul class="pagination">
+                        {% if contacts.has_previous %}
+                            <li><a class='paginator' title='上一页' onclick='doSearch({{contacts.previous_page_number}})' href='#' ><span>上一页</span></a></li>
+                        {% endif %}
+
+                        {% for page in contacts.paginator.page_range %}
+                            {% if page = contacts.number %}
+                            <li><a class='paginator_current' title='当前页:{{ page }}'><span style="color: #000093">{{ page }}</span></a></li>
+                            {% else %}
+                            <li><a class='paginator' onclick='doSearch({{page}})' href='#'  title='{{ page }}'><span>{{ page }}</span></a></li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if contacts.has_next %}
+                        <li><a class='paginator' title='下一页' onclick='doSearch({{contacts.next_page_number}})' href='#'><span>下一页</span></a></li>
+                        {% endif %}
+                        </ul>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function doSearch(page){
+        $("#id_current_page").val(page);
+        //document.all.form.submit(); 
+        search_form=document.getElementsByTagName("form");
+        search_form[0].submit();
+    }
+</script>
+{% endblock %}

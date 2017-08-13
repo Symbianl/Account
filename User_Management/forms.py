@@ -9,17 +9,34 @@ TITLE_AUTHORITY_CHOICES = (
 
 #用户表单
 class AccountForm(forms.Form):
-    password = forms.CharField(label='用户密码：',
-                               widget=forms.PasswordInput(attrs={"placeholder":"必填","value":"","required":"required"}),
-                               max_length=45,error_messages={"required":u"必填","max_length":u"最大长度不超过45"})
+    first_name = forms.CharField(label='用户姓名：', required=False, \
+                                 widget=forms.TextInput(attrs={"placeholder": ""}), max_length=45, \
+                                 error_messages={"required": u"必填", "max_length": u"最大长度不超过45"})
 
     username = forms.CharField(label='用户账号：',
                                widget=forms.TextInput(attrs={"placeholder":'必填','value':"","required":"required"}),
                                max_length=45,error_messages={"required":u'必填',"max_length":u"最大长度不超过45"})
 
+    password = forms.CharField(label='用户密码：',
+                               widget=forms.PasswordInput(
+                                   attrs={"placeholder": "必填", "value": "", "required": "required"}),
+                               max_length=45, error_messages={"required": u"必填", "max_length": u"最大长度不超过45"})
+
     email = forms.EmailField(label='电子邮箱:',
                              widget=forms.TextInput(attrs={"placeholder":'必填','value':'',"required":"required"}),
                              max_length=45,error_messages={"required":u"必填","max_length":u"最大长度不超过45"})
+
+    management = forms.IntegerField(label='全部权限',
+                                    widget=forms.Select(choices=TITLE_AUTHORITY_CHOICES))
+
+    insurance = forms.IntegerField(label='保险部权限:',
+                                   widget=forms.Select(choices=TITLE_AUTHORITY_CHOICES))
+
+    business = forms.IntegerField(label='业务部权限:',
+                                  widget=forms.Select(choices=TITLE_AUTHORITY_CHOICES))
+
+    financing = forms.IntegerField(label='融资部权限:',
+                                   widget=forms.Select(choices=TITLE_AUTHORITY_CHOICES))
 
 #登录表单
 class LoginForm(forms.Form):

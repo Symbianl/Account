@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'Account_management',
     'User_Management',
+    'authority_management',
 
 )
 
@@ -85,7 +86,7 @@ DATABASES = {
         'ENGINE':'django.db.backends.mysql',
         'NAME':'account',
         'USER':'root',
-        'PASSWORD':'1234',
+        'PASSWORD':'123456',
         'HOST':'',
         'PORT':'',
         #'ENGINE': 'django.db.backends.sqlite3',

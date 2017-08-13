@@ -1,6 +1,6 @@
 # -*-coding:utf-8 -*-
 from django.shortcuts import render ,HttpResponse ,render_to_response
-from forms import ImportFileForm
+from User_Management.models import Menger
 from models import Account_insurer
 from models import Account_financing
 import os
@@ -72,26 +72,27 @@ def read_excel(list_dir):
     colnames = table.row_values(0)
     List = []
     x = y = z = 0
-    for i in range(1, nrows):
-        row = table.row_values(i)
-        for j in range(0, ncols):
-            if type(row[j]) == float:
-                row[j] = int(row[j])
-        if row:  # 查看行值是否为空
-            if Account_insurer.objects.filter(number=row[0]).exists():  # 判断该行值是否在数据库中重复
-                x = x + 1  # 重复值计数
+    if Menger.insurance == 1:
+        for i in range(1, nrows):
+            row = table.row_values(i)
+            for j in range(0, ncols):
+                if type(row[j]) == float:
+                    row[j] = int(row[j])
+            if row:  # 查看行值是否为空
+                if Account_insurer.objects.filter(number=row[0]).exists():  # 判断该行值是否在数据库中重复
+                    x = x + 1  # 重复值计数
+                else:
+                    y = y + 1  # 非重复计数
+                    row[4] = str(datetime(*xldate_as_tuple(row[4],0)))[0:10]#xrld读取xls文件时间整数值转换为达特形式
+                    row[5] = str(datetime(*xldate_as_tuple(row[5],0)))[0:10]
+                    List.append(Account_insurer(number=row[0], insurer=row[1],
+                                                ship_name=row[2], Clerk=row[3],
+                                                Insured_date=row[4],Expired_date=row[5]))
             else:
-                y = y + 1  # 非重复计数
-                row[4] = str(datetime(*xldate_as_tuple(row[4],0)))[0:10]#xrld读取xls文件时间整数值转换为达特形式
-                row[5] = str(datetime(*xldate_as_tuple(row[5],0)))[0:10]
-                List.append(Account_insurer(number=row[0], insurer=row[1],
-                                            ship_name=row[2], Clerk=row[3],
-                                            Insured_date=row[4],Expired_date=row[5]))
-        else:
-            z = z + 1  # 空行值计数
-            error +="导入失败"
-    Account_insurer.objects.bulk_create(List)
-    print 'Successfully imported ' + str(x) + 'data, repeat' + str(y) + 'there are' + str(z) + 'lines of empty'
+                z = z + 1  # 空行值计数
+                error +="导入失败"
+        Account_insurer.objects.bulk_create(List)
+        print 'Successfully imported ' + str(x) + 'data, repeat' + str(y) + 'there are' + str(z) + 'lines of empty'
 
     if row:
         if Account_financing.objects.filter(number=row[0]).exists(): #判断该行值是否在数据库中重复
