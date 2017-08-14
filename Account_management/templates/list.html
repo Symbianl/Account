@@ -28,16 +28,32 @@
             <table class="table table-condensed table-bordered table-hover">
                 <thead>
                     <tr>
+                    {% if menger_insurance %}
                         <th>编号</th>
                         <th>保险公司</th>
                         <th>船舶名称</th>
                         <th>业务员</th>
                         <th>保单时间</th>
                         <th>到期时间</th>
+                    {% endif %}
+
+                    {% if menger_financing %}
+                        <th>编号</th>
+                        <th>银行</th>
+                        <th>船舶名称</th>
+                        <th>业务员</th>
+                        <th>金额</th>
+                        <th>借款人</th>
+                        <th>联系方式</th>
+                        <th>到期时间</th>
+                    {% endif %}
+
                     </tr>
                 </thead>
-                <tbody> {% for list in lists %}
-
+                <tbody>
+                {% if lists %}
+                {% if menger_insurance %}
+                {% for list in lists %}
                     <tr>
                        <td>{{ list.number }}</td>
                        <td>{{ list.insurer }}</td>
@@ -45,7 +61,25 @@
                        <td>{{ list.Clerk }}</td>
                        <td>{{ list.Insured_date|date:"Y-m-d"}}</td>
                        <td>{{ list.Expired_date|date:"Y-m-d"}}</td>
-                    </tr>{% endfor %}
+                    </tr>
+                {% endfor %}
+                {% endif %}
+
+                {% if menger_financing %}
+                {% for list in lists %}
+                    <tr>
+                    <td>{{ list.number }}</td>
+                    <td>{{ list.Blank }}</td>
+                    <td>{{ list.ship_name }}</td>
+                    <td>{{ list.Clerk }}</td>
+                    <td>{{ list.sum }}</td>
+                    <td>{{ list.Borrower_user }}</td>
+                    <td>{{ list.Borrower_Tel }}</td>
+                    <td>{{ list.Expired_date|date:"Y-m-d" }}</td>
+                    </tr>
+                {% endfor %}
+                {% endif %}
+                {% endif %}
                 </tbody>
             </table>
             </div>

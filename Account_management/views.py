@@ -20,14 +20,17 @@ if django.VERSION>=(1,7):
 
 #查询excel数据
 def inquire(request):
+    user = request.user
+    menger = Menger.objects.get(user=user)
     if request.method =='POST':
         search = request.POST.get('search')
-        print search
+        if menger.insurance ==1:
+            obj = Account_insurer
+        elif menger.financing ==1:
+            obj = Account_financing
         if search:
-            lists = Account_insurer.objects.filter(Q(number__contains=search)|Q(ship_name__contains=search)|Q(Clerk__contains=search))
-            return render(request, 'list.html', {"lists": lists})
-        else:
-            print '110'
+            lists = obj.objects.filter(Q(number__contains=search)|Q(ship_name__contains=search)|Q(Clerk__contains=search))
+            return render(request, 'list.html', {"lists": lists,'menger_insurance':menger.insurance,'menger_financing':menger.financing})
     return render(request,'list.html',{})
 
 
