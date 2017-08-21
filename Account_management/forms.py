@@ -26,14 +26,16 @@ class insurerForm(forms.Form):
     "必填", "value": "", "required": "required", }), max_length=45,\
     error_messages={"required":u"必填", "max_length":u"最大长度不超过45"})
 
-	insured_date = forms.DateField(label='保单时间：', required=False,\
-    widget=forms.DateInput(attrs={"readonly":"true"}))
+	insured_date = forms.DateField(label='保单到期时间：', required=False, \
+                                     widget=forms.DateInput(attrs={"placeholder": "格式：2011-01-01", \
+                                                                   }), error_messages={"required": u"必填"})
 
-	expired_date =forms.DateField(label='到期时间：', required=False,\
-    widget=forms.DateInput(attrs={"readonly":"true"}))
+	expired_date =forms.DateField(label='到期时间：', required=False, \
+                                     widget=forms.DateInput(attrs={"placeholder": "格式：2011-01-01", \
+                                                                   }), error_messages={"required": u"必填"})
 
 class financingForm(forms.Form):
-	unmber =forms.CharField(label='编号：', widget=forms.TextInput(attrs={"placeholder":\
+	number =forms.CharField(label='编号：', widget=forms.TextInput(attrs={"placeholder":\
     "必填", "value": "", "required": "required", }), max_length=45,\
     error_messages={"required":u"必填", "max_length":u"最大长度不超过45"})
 
@@ -62,8 +64,20 @@ class financingForm(forms.Form):
 		widget=forms.TextInput(attrs={}),
 		max_length=11)
 
-	expired_date =forms.DateField(label='保单到期时间：', required=False,\
-    widget=forms.DateInput(attrs={"readonly":"true"}))
+	expired_date =forms.DateField(label='保单到期时间：', required=False, \
+                                     widget=forms.DateInput(attrs={"placeholder": "格式：2011-01-01", \
+                                                                   }), error_messages={"required": u"必填"})
+
+
+class SearchForm(forms.Form):
+    """
+    查询表单
+    """
+    keyword = forms.CharField(
+        widget=forms.TextInput(
+            attrs={'placeholder':u"输入关键字", 'style':'width:166px; height:35px;line-height:35px;'}),
+        required=False)
+    current_page = forms.IntegerField(widget=forms.HiddenInput())
 
 
 

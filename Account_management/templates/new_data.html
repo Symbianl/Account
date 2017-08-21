@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% block content %}
+{{ form.media }}
+
+<style>
+.play{
+    position: relative;
+}
+#center{
+    position: relative;
+    right: 90px;
+}
+#main{
+     position: relative;
+    right: 40px;
+}
+</style>
+<div class="container" style="width: 90%">
+	<div class="row clearfix">
+		<div class="col-md-12 column play">
+			<h2 class="text-center"id="center">
+               录入详细信息
+            </h2><br><br>
+		</div>
+		<br><br>
+		
+      	<form class="form-horizontal" role="form" method='post' enctype="multipart/form-data">
+      	{% csrf_token %}
+             <div class="row clearfix">
+                <div class="col-md-12 column">
+                    <div class="panel panel-info">
+                    	<div class="panel-heading">
+							录入信息
+						</div>
+                    <input class="btn btn-danger" type="button" value="删除" onclick="DelShip('{% url 'del_info' list.id %}')">
+						<br>
+
+                        {% if menger_insuere %}
+                        <div class="form-group">
+						<label class="col-sm-2 control-label" for="policy-holder">{{ form.number.label }}</label>
+						<div class="col-sm-3">
+						{{ form.number }}
+						{{ form.number.errors }}
+						</div>
+						<label class="col-sm-2 control-label" for="insurance_company">{{ form.insurer.label }}</label>
+						<div class="col-sm-3">
+						{{ form.insurer }}
+						{{ form.insurer.errors }}
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="insurance_company">{{ form.ship_name.label }}</label>
+						<div class="col-sm-3">
+						{{ form.ship_name }}
+						{{ form.ship_name.errors }}
+						</div>
+                       <label class="col-sm-2 control-label" for="policy-holder">{{ form.clerk.label }}</label>
+						<div class="col-sm-3">
+						{{ form.clerk }}
+						{{ form.clerk.errors }}
+						</div>
+					</div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="policy-holder">{{ form.insured_date.label }}</label>
+						<div class="col-sm-3">
+						{{ form.insured_date }}
+						{{ form.insured_date.errors }}
+						</div>
+						 <label class="col-sm-2 control-label" for="policy-holder">{{ form.expired_date.label }}</label>
+						<div class="col-sm-3">
+						{{ form.expired_date }}
+						{{ form.expired_date.errors }}
+						</div>
+                    </div>
+                    {% endif %}
+
+                        {% if menger_financing %}
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="insurance_company">{{ form.number.label }}</label>
+                            <div class="col-sm-3">
+                            {{ form.number }}
+                            {{ form.number.errors }}
+                            </div>
+						<label class="col-sm-2 control-label" for="insurance_company">{{ form.blank.label }}</label>
+						<div class="col-sm-3">
+						{{ form.blank }}
+						{{ form.blank.errors }}
+						</div>
+					</div>
+                    <div class="form-group">
+                        	<label class="col-sm-2 control-label" for="policy-holder">{{ form.ship_name.label }}</label>
+						<div class="col-sm-3">
+						{{ form.ship_name }}
+						{{ form.ship_name.errors }}
+						</div>
+						<label class="col-sm-2 control-label" for="policy-holder">{{ form.clerk.label }}</label>
+						<div class="col-sm-3">
+						{{ form.clerk }}
+						{{ form.clerk.errors }}
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="policy-holder">{{ form.sum.label }}</label>
+						<div class="col-sm-3">
+						{{ form.sum }}
+						{{ form.sum.errors }}
+						</div>
+						<label class="col-sm-2 control-label" for="insurance_company">{{ form.borrower_user.label }}</label>
+						<div class="col-sm-3">
+						{{ form.borrower_user }}
+						{{ form.borrower_user.errors }}
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="policy-holder">{{ form.borrower_tel.label }}</label>
+						<div class="col-sm-3">
+						{{ form.borrower_tel }}
+						{{ form.borrower_tel.errors }}
+						</div>
+						<label class="col-sm-2 control-label" for="insurance_company">{{ form.expired_date.label }}</label>
+						<div class="col-sm-3">
+						{{ form.expired_date }}
+						{{ form.expired_date.errors }}
+						</div>
+					</div>
+                    {% endif %}
+
+					<div class="form-group">
+		      			<label class="col-sm-2 control-label" for="policy-holder"></label>
+		                        <div class="col-sm-3">
+                           <input type="submit" class="btn btn-primary" value="保存">
+                           <button class="btn btn-primary"  onclick="javascript:window.history.go(-1);" type="button">返回</button>
+                        		</div>
+         			</div>
+			</div>
+		</div>
+		<br>
+		</div>
+		</form>
+        <br>
+    </div>
+</div>
+<br>
+<script>
+//删除船舶
+function DelShip(url){
+	if(window.confirm('删除该船舶将与该船舶相关业务一同删除，是否确定删除该船舶？')){
+		$.get(url,
+			function(data){
+				alert(data);
+				location.href = "{% url 'info' %}";
+			}
+		);
+	}else{
+		return false;
+	}
+}
+</script>
+{% endblock %}

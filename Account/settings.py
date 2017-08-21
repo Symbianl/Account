@@ -123,6 +123,39 @@ MEDIA_URL = '/uploads/'
 MEDIA_ROOT = os.path.join(BASE_DIR,  'uploads')
 
 LOGIN_URL = '/login'
+
+import djcelery
+#from celery.schedules import crontab
+djcelery.setup_loader()
+BROKER_URL = 'django://'
+CELERY_TIMEZONE = TIME_ZONE
+
+from datetime import timedelta
+
+
+CELERYBEAT_SCHEDULE = {
+    'check_insurance_list_expiration_time': {
+        'task': 'record_table_management.tasks.check_insurance_list_expiration_time',
+        #'schedule': crontab(minute=u'30', hour=u'10',),
+        'schedule': timedelta(hours=1),
+    },
+    'check_finance_list_expiration_time': {
+        'task': 'record_table_management.tasks.check_finance_list_expiration_time',
+        #'schedule': crontab(minute=u'30', hour=u'10',),
+        'schedule': timedelta(hours=1),
+    },
+}
+
+
+# send e-mail
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.qq.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = '313904661@qq.com'
+EMAIL_HOST_PASSWORD = 'plmdwnptvxwebhec'
+
+
 # # 自定义日志输出信息
 # LOGGING = {
 #     'version': 1,

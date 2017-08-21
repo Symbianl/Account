@@ -1,0 +1,119 @@
+{% extends 'base.html'%}
+
+{% block content%}
+<div class="container-fluid" style="width: 90%">
+   <div class="row-fluid">
+      <div class="span12">
+         <h3 class="text-center">
+            <strong>业务员管理</strong>
+         </h3><br>
+         <div class="row clearfix">
+            <form class="form-horizontal" role="form" method='post'>
+            {% csrf_token %}
+            <div class="col-md-12 column">
+               <div class="panel panel-info">
+               	  <div class="panel-heading">
+                        <span><label>业务员管理</label></span>
+                        {% if user_id %}
+                         <a href="{% url 'user_del' user_id %}"><input class="btn btn-danger" type="button" value="删除业务员" ></a>
+                        {% endif %}
+                    </div>
+                  <div class="panel-body">
+                     <div class="col-md-6 column">
+                        <div class="form-group">
+                             <label class="col-sm-4 control-label" for="amount">{{form.username.label}}</label>
+                           <div class="col-sm-7">
+                              {{ form.username }}
+                              <span style="color: red">{{ error.username }}</span>                        
+                           </div>
+                            
+                        </div>
+                     </div>
+                     <div class="col-md-6 column">
+                        <div class="form-group">
+                           <label class="col-sm-4 control-label" for="borrower">{{form.password.label}}</label>
+                           <div class="col-sm-7">
+                              {{ form.password }}
+                              <span style="color: red">{{ error.password }}</span>
+                           </div>
+                        </div>
+                     </div>
+                     <br>
+                     <div class="col-md-6 column">
+                        <div class="form-group">
+                           <label class="col-sm-4 control-label" for="borrower">
+                           {{ form.first_name.label}}</label>
+                           <div class="col-sm-7">
+                              {{ form.first_name }}
+                              <span style="color: red">{{ error.first_name }}</span>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-6 column">
+                        <div class="form-group">
+                           <label class="col-sm-4 control-label" for="borrower">
+                           {{ form.email.label}}</label>
+                           <div class="col-sm-7">
+                              {{ form.email }}
+                              <span style="color: red">{{ error.email }}</span>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-6 column">
+                        <div class="form-group">
+                           <label class="col-sm-4 control-label" for="borrower">
+                           {{ form.management.label}}</label>
+                           <div class="col-sm-7">
+                              {{ form.management }}
+                              <span style="color: red">{{ error.management }}</span>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-6 column">
+                        <div class="form-group">
+                           <label class="col-sm-4 control-label" for="borrower">
+                           {{ form.insurance.label}}</label>
+                           <div class="col-sm-7">
+                              {{ form.insurance }}
+                              <span style="color: red">{{ error.insurance }}</span>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-6 column">
+                        <div class="form-group">
+                           <label class="col-sm-4 control-label" for="borrower">
+                           {{ form.business.label}}</label>
+                           <div class="col-sm-7">
+                              {{ form.business }}
+                              <span style="color: red">{{ error.business }}</span>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-6 column">
+                        <div class="form-group">
+                           <label class="col-sm-4 control-label" for="borrower">
+                           {{ form.financing.label}}</label>
+                           <div class="col-sm-7">
+                              {{ form.financing }}
+                              <span style="color: red">{{ error.financing }}</span>
+                           </div>
+                        </div>
+                     </div>
+                  </div>  
+               </div>
+
+               <center>
+                  <div class="control-group">                 
+                     <div class="controls">
+                        <input type="submit" class="btn btn-primary" value="提交">
+                        <button  class="btn btn-primary" onclick="javascript:window.history.go(-1);" type="button">返回</button>
+                     </div>
+                  </div>
+               </center>
+            </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock%}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+ 
+ 
+{% block content %}
+<div class="container" style="width: 90%">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <h2 class="text-center">
+                人员管理
+            </h2><br>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-md-12 column" style="text-align:right">
+             <a href="{% url 'user_add' %}"><button class="btn btn-primary" type="button">增加业务员</button></a>
+        </div>
+    </div>
+    <br>
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            
+            <div class="box box-info">
+            <table class="table table-condensed table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>业务员名称</th>
+                        <th>邮箱</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% if users %}
+                {% for user in users %}
+                    <tr>
+                    <td><a href="{% url 'user_change' user.id %}">{{ user.first_name }}</a></td>
+                        <td>{{ user.email }}</td>
+                {% endfor %}
+                {% endif %}
+            </table>
+            </div>
+            <div style="text-align:center;">
+                <div class="pagination">
+                    <span class="step-links">
+                        <span class="current">
+                        <ul class="pagination">
+                        </ul>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
