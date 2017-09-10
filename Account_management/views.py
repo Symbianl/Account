@@ -74,53 +74,75 @@ def file_upload(request):
 
 #读取文件内容
 def read_excel(list_dir,menger):
-    error= ''
+    error = ""
+    if list_dir.find('.xlsx') == -1 and list_dir.find('.xls') == -1:
+        error += "你读取的不是excel文件"
+        os.remove(list_dir)
+        return error
+    list = []
     data = xlrd.open_workbook(list_dir)
-    table = data.sheet_by_index(0)
-    nrows = table.nrows
-    ncols = table.ncols
-    colnames = table.row_values(0)
-    List = []
-    x = y = z = 0
-    for i in range(1, nrows):
-        row = table.row_values(i)
-        for j in range(0, ncols):
-            if type(row[j]) == float:
-                row[j] = int(row[j])
-        if menger.insurance == 1:
-            if row:  # 查看行值是否为空
-                if Account_insurer.objects.filter(number=row[0]).exists():  # 判断该行值是否在数据库中重复
-                    x = x + 1  # 重复值计数
+    table = data.sheets()[0]
+    num_rows = table.nrows
+    if menger.insurance:
+        for rows in range (num_rows):
+            if rows == 0:
+                continue
+            try:
+                insured_date = datetime(*xldate_as_tuple(table.cell_value(rows,4),0)).strftime('%Y-%m-%d').decode('utf-8')
+                expired_date = datetime(*xldate_as_tuple(table.cell_value(rows,5),0)).strftime('%Y-%m-%d').decode('utf-8')
+                if Account_insurer.objects.filter(number=table.cell_value(rows,0),
+                                                  insurer=table.cell_value(rows,1),
+                                                  ship_name=table.cell_value(rows,2),
+                                                  Clerk=table.cell_value(rows,3),
+                                                  Insured_date=insured_date,
+                                                  Expired_date= expired_date):
+                                                  pass
                 else:
-                    y = y + 1  # 非重复计数
-                    row[4] = str(datetime(*xldate_as_tuple(row[4],0)))[0:10]#xrld读取xls文件时间整数值转换为达特形式
-                    row[5] = str(datetime(*xldate_as_tuple(row[5],0)))[0:10]
-                    List.append(Account_insurer(number=row[0], insurer=row[1],
-                                                    ship_name=row[2], Clerk=row[3],
-                                                    Insured_date=row[4],Expired_date=row[5]))
-            else:
-                z = z + 1  # 空行值计数
-                error +="导入失败"
-            Account_insurer.objects.bulk_create(List)
-            print 'Successfully imported ' + str(x) + 'data, repeat' + str(y) + 'there are' + str(z) + 'lines of empty'
+                     list.append(Account_insurer(number=table.cell_value(rows,0),
+                     insurer=table.cell_value(rows, 1),
+                     ship_name=table.cell_value(rows, 2),
+                     Clerk=table.cell_value(rows, 3),
+                     Insured_date=insured_date,
+                     Expired_date=expired_date,
+                     due_notice="1"))
+            except(ValueError,IndexError):
+                error +="第%d行数据格式不支持，请检查格式是否正确在上传"%(rows+1)
+                break
+        Account_insurer.objects.bulk_create(list)
 
-        if menger.insurance == 1:
-            if row:
-                if Account_financing.objects.filter(number=row[0]).exists(): #判断该行值是否在数据库中重复
-                    x= x+1
+    if menger.financing:
+        for rows in range(num_rows):
+            if rows == 0 :
+                continue
+            try:
+                expired_date = datetime(*xldate_as_tuple(table.cell_value(rows,7),0)).strftime('%Y-%m-%d').decode('utf-8')
+                if Account_financing.objects.filter(number=table.cell_value(rows,0),
+                                                    Blank=table.cell_value(rows,1),
+                                                    ship_name=table.cell_value(rows,2),
+                                                    Clerk=table.cell_value(rows,3),
+                                                    sum = table.cell_value(rows,4),
+                                                    Borrower_user=table.cell_value(rows,5),
+                                                    Borrower_Tel=table.cell_value(rows,6),
+                                                    Expired_date= expired_date
+                                                    ):
+                    pass
                 else:
-                    y=y+1
-                    row[7] = str(datetime(*xldate_as_tuple(row[7],0)))[0:10]
-                    List.append(Account_financing(number=row[0],Blank=row[1],
-                                                   ship_name=row[2],Clerk=row[3],
-                                                   sum=row[4],Borrower_user=row[5],
-                                                   Borrower_Tel=row[6],Expired_date=row[7]))
-            else:
-                z = z+1
-                error +="导入失败"
-            Account_financing.objects.bulk_create(List)
-            print 'Successfully imported ' + str(x) + 'data, repeat' + str(y) + 'there are' + str(z) + 'lines of empty'
+                    list.append(Account_financing(number=table.cell_value(rows,0),
+                                                  Blank=table.cell_value(rows, 1),
+                                                  ship_name=table.cell_value(rows, 2),
+                                                  Clerk=table.cell_value(rows, 3),
+                                                  sum=table.cell_value(rows, 4),
+                                                  Borrower_user=table.cell_value(rows, 5),
+                                                  Borrower_Tel=table.cell_value(rows, 6),
+                                                  Expired_date=expired_date,
+                                                  due_notice='1'))
+
+            except(ValueError,IndexError):
+                error +="第%行数据格式不支持，请检查格式是否正确再上传"%(rows+1)
+                break
+        Account_financing.objects.bulk_create(list)
     return error
+
 
 #信息列表
 @login_required
@@ -129,7 +151,7 @@ def info_list(request):
     user = request.user
     menger = Menger.objects.get(user= user)
     page = request.GET.get('page')
-    page_items = 30
+    page_items = 10
 
     form = SearchForm()
     if request.method == 'POST':
@@ -156,7 +178,7 @@ def info_list(request):
                 contacts = paginator.page(paginator.num_pages)
 
             return render(request, 'info_list.html',\
-			{'form':form, 'contacts': contacts, 'user':user})
+			{'form':form, 'contacts': contacts, 'user':user,'menger_insurance':menger.insurance,'menger_financing':menger.financing})
 
     else:
 
@@ -213,7 +235,7 @@ def Entry_information(request):
             form = insurerForm()
         return render(request, 'new.html', {'form': form, 'menger_insuere':menger.insurance})
 
-    elif menger.financing :
+    elif menger.financing:
         if request.method == 'POST':
             form = financingForm(request.POST)
             if form.is_valid():
